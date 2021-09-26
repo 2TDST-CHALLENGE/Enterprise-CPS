@@ -1,0 +1,19 @@
+﻿@model Estabelecimento
+
+@{
+    ViewData["Title"] = "Cadastrar";
+}
+
+@section Links {
+    <a asp-action="index">Lista de Estabelecimentos</a>
+}
+
+<h1>Cadastro de Estabelecimentos</h1>
+
+<mensagem texto="@TempData["msg"]" class="alert alert-success"></mensagem>
+
+<form asp-action="cadastrar">
+    <partial name="_Form" />
+    <botao texto="Salvar" class="btn btn-warning"></botao>
+    <a asp-action="index" class="btn btn-dark">Estabelecimentos</a>
+</form>
