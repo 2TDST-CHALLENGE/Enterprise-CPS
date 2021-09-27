@@ -661,11 +661,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\allan\\OneDrive\\Área de Trabalho\\WebApplicationForChallenge\\WebApplicationForChallenge\\WebApplicationForChallenge.csproj",
+      "projectUniqueName": "C:\\Users\\allan\\OneDrive\\Área de Trabalho\\Enterprise-CPS\\WebApplicationForChallenge\\WebApplicationForChallenge.csproj",
       "projectName": "WebApplicationForChallenge",
-      "projectPath": "C:\\Users\\allan\\OneDrive\\Área de Trabalho\\WebApplicationForChallenge\\WebApplicationForChallenge\\WebApplicationForChallenge.csproj",
+      "projectPath": "C:\\Users\\allan\\OneDrive\\Área de Trabalho\\Enterprise-CPS\\WebApplicationForChallenge\\WebApplicationForChallenge.csproj",
       "packagesPath": "C:\\Users\\allan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\allan\\OneDrive\\Área de Trabalho\\WebApplicationForChallenge\\WebApplicationForChallenge\\obj\\",
+      "outputPath": "C:\\Users\\allan\\OneDrive\\Área de Trabalho\\Enterprise-CPS\\WebApplicationForChallenge\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\allan\\AppData\\Roaming\\NuGet\\NuGet.Config",
