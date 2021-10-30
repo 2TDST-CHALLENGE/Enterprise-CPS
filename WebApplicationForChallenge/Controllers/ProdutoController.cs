@@ -1,48 +1,35 @@
-﻿using WebApplicationForChallenge.Models;
-using WebApplicationForChallenge.Persistencia;
-using WebApplicationForChallenge.Repositories;
-using WebApplicationForChallenge.ViewModels;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplicationForChallenge.Persistencia;
+using WebApplicationForChallenge.Models;
 
 namespace WebApplicationForChallenge.Controllers
 {
     public class ProdutoController : Controller
     {
-        private IProdutoRepository _produtoRepository;
+        private FabricaContext _context;
 
-        public ProdutoController(IProdutoRepository produtoRepository)
+        public ProdutoController(FabricaContext context)
         {
-            _produtoRepository = produtoRepository;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View(CarregarViewModel());
-        }
-
-        private ProdutoViewModel CarregarViewModel()
-        {
-            return new ProdutoViewModel()
-            {
-                Lista = _produtoRepository.Listar()
-            };
+            ViewBag.produtos = _context.Produtos.ToList();
+            return View();
         }
 
         [HttpPost]
         public IActionResult Cadastrar(Produto produto)
         {
-            if (ModelState.IsValid)
-            {
-                _produtoRepository.Cadastrar(produto);
-                _produtoRepository.Salvar();
-                TempData["msg"] = "Produto registrado";
-                return RedirectToAction("Index");
-            }
-            return View("Index", CarregarViewModel());
+            _context.Produtos.Add(produto);
+            _context.SaveChanges();
+            TempData["msg"] = "Produto registrado";
+            return RedirectToAction("Index");
         }
     }
 }

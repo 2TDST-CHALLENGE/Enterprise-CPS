@@ -8,6 +8,16 @@
 
 <mensagem texto="@TempData["msg"]"></mensagem>
 
+<form class="form-inline mb-3">
+    <input type="text" name="nomeBusca" class="form-control mr-2" placeholder="Digite o nome"/>
+    <input type="submit" value="Buscar" class="btn btn-success" />
+</form>
+
+@if (Model.Count == 0)
+{ 
+    <mensagem texto="Nenhum registro encontrado" class="alert alert-danger"></mensagem>
+}
+
 <a asp-action="cadastrar">Cadastrar</a>
 <table class="table">
     <tr>

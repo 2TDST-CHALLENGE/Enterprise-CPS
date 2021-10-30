@@ -7,70 +7,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApplicationForChallenge.Models;
 using WebApplicationForChallenge.Persistencia;
-using WebApplicationForChallenge.ViewModels;
 
 namespace WebApplicationForChallenge.Controllers
 {
     public class EstabelecimentoController : Controller
     {
-        private IEstabelecimentoRepository _estabelecimentoRepository;
-        private IProdutoRepository _produtoRepository;
-        private IEstabelecimentoProdutoRepository _estabelecimentoProdutoRepository;
+        private FabricaContext _context;
+
         //Receber por injeção de dependência o Context no construtor
-        public EstabelecimentoController(IEstabelecimentoRepository estabelecimentoRepository,
-                                           IProdutoRepository produtoRepository, IEstabelecimentoProdutoRepository estabelecimentoProdutoRepository)
+        public EstabelecimentoController(FabricaContext context)
         {
-            _estabelecimentoRepository = estabelecimentoRepository;
-            _produtoRepository = produtoRepository;
-            _estabelecimentoProdutoRepository = estabelecimentoProdutoRepository;
-        }
-
-        [HttpPost]
-        public IActionResult Adicionar(EstabelecimentoProduto estabelecimentoProduto)
-        {
-            //Cadastrar o produto estabelecimento
-            _estabelecimentoProdutoRepository.Cadastrar(estabelecimentoProduto);
-            _estabelecimentoProdutoRepository.Salvar();
-            //Mensagem de sucesso
-            TempData["msg"] = "Produto adicionado!";
-            //Redirect
-            return RedirectToAction("Detalhes", new { id = estabelecimentoProduto.Codigo });
-        }
-
-        [HttpGet]
-        public IActionResult Detalhes(int id)
-        {
-            //Pesquisar todos os produtos que estão disponíveis
-            var lista = _produtoRepository.BuscarPor(b => b.Disponivel);
-
-            //Pesquisar todos os produtos que estão associados ao Estabelecimento
-            var produtosEstabelecimento = _produtoRepository.BuscarPorEstabelecimento(id);
-
-            //Filtrar a lista
-            var listaFiltrada = lista.Where(b => !produtosEstabelecimento.Any(b1 => b.ProdutoId == b1.ProdutoId));
-
-
-            var viewModel = new DetalhesEstabelecimentoViewModel()
-            {
-                Funcionario = _estabelecimentoRepository.BuscarPorId(id),
-                Select = new SelectList(listaFiltrada, "ProdutoId", "Nome"),
-                Lista = produtosEstabelecimento
-            };
-
-            //Enviar o estabelecimento para a view
-            return View(viewModel);
+            _context = context;
         }
 
         [HttpPost]
         public IActionResult Cadastrar(Estabelecimento estabelecimento)
         {
-            if (ModelState.IsValid)
-            {
-                _estabelecimentoRepository.Cadastrar(estabelecimento);
-                _estabelecimentoRepository.Salvar();
-                TempData["msg"] = "Cadastro registrado!";
-            }
-            return RedirectToAction("cadastrar");
+            _context.Estabelecimentos.Add(estabelecimento);
+            _context.SaveChanges();//commit
+            TempData["msg"] = "Estabelecimento cadastrado!";
+            return RedirectToAction("Index");
         }
 
         [HttpGet] //Abrir a página de cadastro - URL /estabelecimento/cadastrar
@@ -89,43 +45,42 @@ namespace WebApplicationForChallenge.Controllers
         [HttpPost]
         public IActionResult Editar(Estabelecimento estabelecimento)
         {
-            if (ModelState.IsValid)
-            {
-                _estabelecimentoRepository.Atualizar(estabelecimento);
-                _estabelecimentoRepository.Salvar();
-                TempData["msg"] = "Cadastro atualizado!";
-            }
-            return Editar(estabelecimento.Codigo);
+            _context.Estabelecimentos.Update(estabelecimento);
+            _context.SaveChanges();
+            TempData["msg"] = "Estabelecimento atualizado";
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Editar(int id)
         {
             CarregarRamos();
-            var estabelecimento = _estabelecimentoRepository.Find(p => p.Codigo == id);
-
+            var estabelecimento = _context.Estabelecimentos
+                .Include(f => f.Endereco) //inclui o relacionamento
+                .Where(f => f.Codigo == id) //filtro
+                .FirstOrDefault(); //retorna o primeiro resultado ou null
             return View(estabelecimento);
         }
 
         [HttpPost]
         public IActionResult Remover(int id)
         {
-            _estabelecimentoRepository.Remover(id);
-            _estabelecimentoRepository.Salvar();
+            var estabelecimento = _context.Estabelecimentos.Find(id); //pesquisa pela PK
+            _context.Estabelecimentos.Remove(estabelecimento); //remove pelo objeto
+            _context.SaveChanges(); //commit
             TempData["msg"] = "Estabelecimento removido!";
-
             return RedirectToAction("Index");
         }
 
         public IActionResult Index(string nomeBusca)
         {
-            var viewModel = new IndexEstabelecimentoViewModel()
-            {
-                Lista = _estabelecimentoRepository.BuscarPor(f =>
+            var lista = _context.Estabelecimentos.Where(f =>
                 (f.Nome.Contains(nomeBusca) || nomeBusca == null))
-            };
-
-            return View(viewModel);
+                .Include(f => f.Nome)
+                .Include(f => f.Endereco) //Inclui o endereço no resultado da pesquisa
+                .ToList(); //recupera todos os estabelecimento
+            return View(lista);
         }
+
     }
 }
