@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\allan\\OneDrive\\Área de Trabalho\\Enterprise-CPS\\WebApplicationForChallenge\\WebApplicationForChallenge.csproj": {}
+    "C:\\Users\\allan\\source\\repos\\2TDST-CHALLENGE\\Enterprise-CPS\\WebApplicationForChallenge\\WebApplicationForChallenge.csproj": {}
   },
   "projects": {
-    "C:\\Users\\allan\\OneDrive\\Área de Trabalho\\Enterprise-CPS\\WebApplicationForChallenge\\WebApplicationForChallenge.csproj": {
+    "C:\\Users\\allan\\source\\repos\\2TDST-CHALLENGE\\Enterprise-CPS\\WebApplicationForChallenge\\WebApplicationForChallenge.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\allan\\OneDrive\\Área de Trabalho\\Enterprise-CPS\\WebApplicationForChallenge\\WebApplicationForChallenge.csproj",
+        "projectUniqueName": "C:\\Users\\allan\\source\\repos\\2TDST-CHALLENGE\\Enterprise-CPS\\WebApplicationForChallenge\\WebApplicationForChallenge.csproj",
         "projectName": "WebApplicationForChallenge",
-        "projectPath": "C:\\Users\\allan\\OneDrive\\Área de Trabalho\\Enterprise-CPS\\WebApplicationForChallenge\\WebApplicationForChallenge.csproj",
+        "projectPath": "C:\\Users\\allan\\source\\repos\\2TDST-CHALLENGE\\Enterprise-CPS\\WebApplicationForChallenge\\WebApplicationForChallenge.csproj",
         "packagesPath": "C:\\Users\\allan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\allan\\OneDrive\\Área de Trabalho\\Enterprise-CPS\\WebApplicationForChallenge\\obj\\",
+        "outputPath": "C:\\Users\\allan\\source\\repos\\2TDST-CHALLENGE\\Enterprise-CPS\\WebApplicationForChallenge\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\allan\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -43,6 +43,10 @@
             "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
               "target": "Package",
               "version": "[3.1.16, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.5, )"
             }
           },
           "imports": [
